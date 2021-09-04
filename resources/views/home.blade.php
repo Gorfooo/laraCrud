@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    <button class='btn bg-success text-white mb-2'>Adicionar</button>
+                    <button class='btn bg-success text-white mb-2'>@lang('contacts.register')</button>
 
                     <div class="table-responsive">
                       <table class="table table-striped">
@@ -35,10 +35,10 @@
                                 <td class='align-middle'>Ottoasdasdasdasdasda</td>
                                 <td class='align-middle'>textoasdasddas</td>
                                 <td>
-                                  <button class='btn bg-primary text-white'>Editar</button>
+                                  <button class='btn bg-primary text-white'>@lang('contacts.edit')</button>
                                 </td>
                                 <td>
-                                  <button class='btn bg-danger text-white'>Remover</button>
+                                  <button class='btn bg-danger text-white'>@lang('contacts.remove')</button>
                                 </td>
                             </tr>
                           </tbody>

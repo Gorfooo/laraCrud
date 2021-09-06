@@ -1,1 +1,1 @@
-<x-package-mainContactView/>
+<x-package-mainContactView :route="$routeParameter"/>

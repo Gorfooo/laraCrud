@@ -22,9 +22,19 @@ Route::get('/lang',function(){
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/register',function(){
-    return view('insertContact');
+    $routeParameter = 'Contacts/create';
+    return view('insertContact',compact('routeParameter'));
 })->name('/register');
 
+Route::post('Contacts/create', 'ContactController@create');
+
 Route::get('/edit',function(){
-    return view('editContact');
+    $routeParameter = '/update';
+    return view('editContact',compact('routeParameter'));
 })->name('/edit');
+
+Route::post('Contacts/{contact}', 'ContactController@update');
+
+Route::get('/cancel',function(){
+    return redirect('home');
+})->name('/cancel');

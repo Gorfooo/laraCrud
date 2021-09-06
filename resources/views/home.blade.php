@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    <button class='btn bg-success text-white mb-2'>@lang('contacts.register')</button>
+                    <a href='{{ route('/register') }}' class='btn bg-success text-white mb-2'>@lang('contacts.register')</a>
 
                     <div class="table-responsive">
                       <table class="table table-striped">
@@ -35,10 +35,10 @@
                                 <td class='align-middle'>Ottoasdasdasdasdasda</td>
                                 <td class='align-middle'>textoasdasddas</td>
                                 <td>
-                                  <button class='btn bg-primary text-white'>@lang('contacts.edit')</button>
+                                  <a href='{{ route('/edit') }}' class='btn bg-primary text-white'>@lang('contacts.edit')</a>
                                 </td>
                                 <td>
-                                  <button class='btn bg-danger text-white'>@lang('contacts.remove')</button>
+                                  <a href='#' class='btn bg-danger text-white'>@lang('contacts.remove')</a>
                                 </td>
                             </tr>
                           </tbody>

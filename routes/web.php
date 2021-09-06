@@ -16,11 +16,10 @@ Route::get('/lang',function(){
     }else{
         session(['language' => 'en']);
     }
-    return redirect('home');
+    return redirect()->back();
 })->name('/lang');
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-
 
 Route::get('/register',function(){
     return view('insertContact');

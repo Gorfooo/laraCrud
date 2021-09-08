@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ContactController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,22 +19,23 @@ Route::get('/lang',function(){
     return redirect()->back();
 })->name('/lang');
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [ContactController::class, 'index'])->name('home');
 
-Route::get('/register',function(){
-    $routeParameter = 'Contacts/create';
+Route::get('/create',function(){
+    $routeParameter = 'Contacts/store';
     return view('insertContact',compact('routeParameter'));
-})->name('/register');
-
-Route::post('Contacts/create', 'ContactController@create');
+})->name('/create');
 
 Route::get('/edit',function(){
-    $routeParameter = '/update';
+    $routeParameter = 'Contacts/update';
     return view('editContact',compact('routeParameter'));
 })->name('/edit');
-
-Route::post('Contacts/{contact}', 'ContactController@update');
 
 Route::get('/cancel',function(){
     return redirect('home');
 })->name('/cancel');
+
+Route::namespace('App\Http\Controllers')->group(function(){
+    Route::post('Contacts/store', 'ContactController@store')->name('Contacts/store');
+    Route::post('Contacts/{contact}', 'ContactController@update')->name('Contacts/update');
+});

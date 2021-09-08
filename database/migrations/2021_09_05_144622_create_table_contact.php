@@ -16,16 +16,16 @@ class CreateTableContact extends Migration
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
             $table->string('photo_path');
-            $table->string('observation');
-            $table->string('name');
-            $table->string('zip_code');
-            $table->string('public_place');
+            $table->string('observation',500);
+            $table->string('name',50);
+            $table->string('zip_code',9);
+            $table->string('public_place',50);
             $table->integer('number');
-            $table->string('state');
-            $table->string('city');
-            $table->string('phone_number');
-            $table->string('country');
-            $table->string('complement');
+            $table->char('state',2);
+            $table->string('city',50);
+            $table->string('phone_number',20);
+            $table->string('country',50);
+            $table->string('complement',50);
             $table->timestamps();
         });
     }

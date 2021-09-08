@@ -7,34 +7,40 @@ use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
-    public function index()
+    private $contact;
+
+    public function __construct(Contact $contact)
     {
-        $contacts = contact::all();
+        $this->contact = $contact;
     }
 
-    public function create()
+    public function index()
     {
-        dd('caiu aq');
+        $contacts = $this->contact->paginate(10);
+        return view('home',compact('contacts'));
+    }
+
+    public function create(Request $request)
+    {
+        //
     }
 
     public function store(Request $request)
     {
-        //
-    }
-
-    public function show($id)
-    {
-        //
+        $data = $request->all();
+        dd($data);
     }
 
     public function edit($id)
     {
-        //
+        $contact = $this->contact->findOrFail($id);
+
+        return view('editContact',compact('contact'));
     }
 
     public function update(Request $request, $id)
     {
-        //
+        dd('caiu no update');
     }
 
     public function destroy($id)

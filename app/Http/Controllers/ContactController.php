@@ -16,13 +16,14 @@ class ContactController extends Controller
 
     public function index()
     {
-        $contacts = $this->contact->paginate(10);
-        return view('home',compact('contacts'));
+        // $contacts = $this->contact->paginate(10);
+        return view('home');
     }
 
     public function create(Request $request)
     {
-        //
+        $routeParameter = 'Contacts/store';
+        return view('insertContact',compact('routeParameter'));
     }
 
     public function store(Request $request)
@@ -33,6 +34,8 @@ class ContactController extends Controller
 
     public function edit($id)
     {
+        //     $routeParameter = 'Contacts/update';
+        //     return view('editContact',compact('routeParameter'));
         $contact = $this->contact->findOrFail($id);
 
         return view('editContact',compact('contact'));

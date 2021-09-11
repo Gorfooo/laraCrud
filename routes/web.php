@@ -8,6 +8,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/teste', function () {
+    return view('components.teste');
+});
+
 Auth::routes();
 
 Route::get('/lang',function(){
@@ -21,21 +25,13 @@ Route::get('/lang',function(){
 
 Route::get('/home', [ContactController::class, 'index'])->name('home');
 
-Route::get('/create',function(){
-    $routeParameter = 'Contacts/store';
-    return view('insertContact',compact('routeParameter'));
-})->name('/create');
-
-Route::get('/edit',function(){
-    $routeParameter = 'Contacts/update';
-    return view('editContact',compact('routeParameter'));
-})->name('/edit');
-
 Route::get('/cancel',function(){
     return redirect('home');
 })->name('/cancel');
 
 Route::namespace('App\Http\Controllers')->group(function(){
-    Route::post('Contacts/store', 'ContactController@store')->name('Contacts/store');
-    Route::post('Contacts/{contact}', 'ContactController@update')->name('Contacts/update');
+    Route::get('Contacts/create', 'ContactController@create');
+    Route::post('Contacts/store', 'ContactController@store');
+    Route::get('Contacts/edit', 'ContactController@edit');
+    // Route::get('Contacts/update', 'ContactController@update')->name('Contacts/update');
 });

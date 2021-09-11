@@ -5,7 +5,7 @@
  */
 
 require('./bootstrap');
-require('vue-picture-input');
+// require('vue-picture-input');
 
 window.Vue = require('vue').default;
 

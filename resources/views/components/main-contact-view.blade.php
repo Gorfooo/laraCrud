@@ -1,6 +1,6 @@
 {{-- <script src="node_modules\vue\dist\vue.min.js"></script> --}}
-{{-- <script src="https://unpkg.com/vue"></script>  --}}
-<script src="{{mix('/js/app.js')}}"></script>
+<script src="https://unpkg.com/vue"></script> 
+{{-- <script src="{{mix('/js/app.js')}}"></script> --}}
 {{-- <script src="node_modules\vue-picture-input\umd\vue-picture-input.js"></script> --}}
 <script src="https://unpkg.com/vue-picture-input"></script>
 
@@ -29,8 +29,8 @@
                             <div class="row">
                                 <div class="col-5">
                                     <p>@lang('contacts.photo')</p>
-                                        <div id="app">
-                                            <picture-input 
+                                        <div id="app"></div>
+                                        {{-- <picture-input 
                                               ref="pictureInput" 
                                               width="100" 
                                               height="100" 
@@ -46,8 +46,7 @@
                                               :custom-strings="{
                                                 remove: '@lang('contacts.remove')'
                                               }">
-                                            </picture-input>
-                                        </div>
+                                            </picture-input> --}}
                                 </div>
                                 <div class="col-7" style='height:6.5rem'>
                                     <label>@lang('contacts.observation')</label>
@@ -102,7 +101,7 @@
                         </div>
                         <div class="row">
                             <div class="col text-right">
-                                <a href="{{ route('/cancel')}}" class="btn btn-danger">@lang('contacts.cancel')</a>
+                                <a href="{{route('/cancel')}}" class="btn btn-danger">@lang('contacts.cancel')</a>
                                 <button type='submit' class="btn btn-success">@lang('contacts.save')</button>
                             </div>
                         </div>
@@ -112,12 +111,4 @@
         </div>
     </div>
 </div>
-<script>
-    var app = new Vue({
-        el: '#app',
-        components: {
-          'picture-input': PictureInput
-        }
-    })
-</script> 
 @endsection

@@ -8,10 +8,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/teste', function () {
-    return view('components.teste');
-});
-
 Auth::routes();
 
 Route::get('/lang',function(){
@@ -30,8 +26,8 @@ Route::get('/cancel',function(){
 })->name('/cancel');
 
 Route::namespace('App\Http\Controllers')->group(function(){
-    Route::get('Contacts/create', 'ContactController@create');
-    Route::post('Contacts/store', 'ContactController@store');
-    Route::get('Contacts/edit', 'ContactController@edit');
+    Route::get('contacts/create', 'ContactController@create');
+    Route::post('contacts/store', 'ContactController@store');
+    Route::get('contacts/edit', 'ContactController@edit');
     // Route::get('Contacts/update', 'ContactController@update')->name('Contacts/update');
 });

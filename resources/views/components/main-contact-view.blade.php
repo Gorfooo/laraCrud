@@ -1,9 +1,3 @@
-{{-- <script src="node_modules\vue\dist\vue.min.js"></script> --}}
-<script src="https://unpkg.com/vue"></script> 
-{{-- <script src="{{mix('/js/app.js')}}"></script> --}}
-{{-- <script src="node_modules\vue-picture-input\umd\vue-picture-input.js"></script> --}}
-<script src="https://unpkg.com/vue-picture-input"></script>
-
 @extends('layouts.app')
 
 @section('content')
@@ -15,7 +9,7 @@
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
                 <div class="card-body">
-                    <form enctype="multipart/form-data" method="POST" action="{{route("$route")}}">
+                    <form enctype="multipart/form-data" method="POST" action="{{url("$route")}}">
                         @csrf
                         <div class="form-group">
                             <div class="row">
@@ -28,29 +22,14 @@
                             </div>
                             <div class="row">
                                 <div class="col-5">
-                                    <p>@lang('contacts.photo')</p>
-                                        <div id="app"></div>
-                                        {{-- <picture-input 
-                                              ref="pictureInput" 
-                                              width="100" 
-                                              height="100" 
-                                              margin="16" 
-                                              :plain="true"
-                                              accept="image/jpeg,image/png" 
-                                              size="10" 
-                                              radius="50"
-                                              :hide-change-button="true"
-                                              :removable= "true"
-                                              remove-Button-Class="btn btn-info text-white"
-                                              prefill="img\default_user.png"
-                                              :custom-strings="{
-                                                remove: '@lang('contacts.remove')'
-                                              }">
-                                            </picture-input> --}}
+                                    <label>@lang('contacts.photo')</label>
+                                    <div id="app">
+                                        <main-picture-input></main-picture-input>
+                                    </div>
                                 </div>
                                 <div class="col-7" style='height:6.5rem'>
                                     <label>@lang('contacts.observation')</label>
-                                    <textarea class="form-control h-100" name="observation" maxlength="500"></textarea>
+                                    <textarea class="form-control" name="observation" maxlength="500" style='height:10rem'></textarea>
                                     <small class="form-text text-muted">@lang('contacts.limit_500_caracters')</small>
                                 </div>
                             </div>
@@ -62,7 +41,7 @@
                             </div>
                             <div class="col-sm-3">
                                 <label>@lang('contacts.zip_code')</label>
-                                <input type="text" name="zip_code" class="form-control">
+                                <input type="text" id='zip_code' name="zip_code" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-2">
@@ -72,7 +51,7 @@
                             </div>
                             <div class="col-9 col-sm-3">
                                 <label>@lang('contacts.number')</label>
-                                <input type="number" name="number" class="form-control">
+                                <input type="number" name="number" class="form-control" maxlength="6" oninput="maxLengthCheck(this)">
                             </div>
                             <div class="col-3 col-sm-2">
                                 <label>@lang('contacts.state')</label>
@@ -86,7 +65,7 @@
                             </div>
                             <div class="col-6 col-sm-4">
                                 <label>@lang('contacts.phone')</label>
-                                <input type="text" name="phone" class="form-control">
+                                <input type="text" name="phone" id='phone' class="form-control">
                             </div>
                             <div class="col-6 col-sm-3">
                                 <label>@lang('contacts.country')</label>
@@ -111,4 +90,11 @@
         </div>
     </div>
 </div>
+<script type="application/javascript">
+function maxLengthCheck(object)//limita qtd de caracteres
+{
+    if (object.value.length > object.maxLength)
+      object.value = object.value.slice(0, object.maxLength)
+}
+</script>
 @endsection

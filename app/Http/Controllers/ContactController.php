@@ -22,7 +22,7 @@ class ContactController extends Controller
 
     public function create(Request $request)
     {
-        $routeParameter = 'Contacts/store';
+        $routeParameter = 'contacts/store';
         return view('insertContact',compact('routeParameter'));
     }
 

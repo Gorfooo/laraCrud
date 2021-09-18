@@ -23,13 +23,16 @@
                             <div class="row">
                                 <div class="col-5">
                                     <label>@lang('contacts.photo')</label>
-                                    <div id="app">
-                                        <main-picture-input></main-picture-input>
+                                    <div class='text-center'>
+                                        <img src="{{asset('img/default_user.png')}}" class='rounded-circle w-25'>
+                                        <div class='mt-2'>
+                                            {{-- <input type='file' name='photo' class='btn btn-info'>Incluir</input> --}}
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-7" style='height:6.5rem'>
                                     <label>@lang('contacts.observation')</label>
-                                    <textarea class="form-control" name="observation" maxlength="500" style='height:10rem'></textarea>
+                                    <textarea class="form-control" name="observation" maxlength="500" style='height:8rem'></textarea>
                                     <small class="form-text text-muted">@lang('contacts.limit_500_caracters')</small>
                                 </div>
                             </div>

@@ -21,6 +21,7 @@
             $j("#phone").inputmask("+55 (99) 999999999");
             $j("#zip_code").inputmask("99999-999")
         });
+        
     </script>
     
     <!-- Fonts -->

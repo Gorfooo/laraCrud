@@ -11,18 +11,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.1.60/inputmask/jquery.inputmask.js"></script>
-    <script type='text/javascript'>
-
-        $j=jQuery.noConflict();
-
-        $j(document).ready(function () {
-            $j("#phone").inputmask("+55 (99) 999999999");
-            $j("#zip_code").inputmask("99999-999")
-        });
-        
-    </script>
     
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -30,12 +18,6 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <style>
-        input[type=number]::-webkit-inner-spin-button { 
-            -webkit-appearance: none !important;
-            display: none !important;
-        }
-    </style>
 </head>
 <body>
     <div id="app">

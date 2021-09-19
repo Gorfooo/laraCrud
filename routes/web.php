@@ -19,15 +19,17 @@ Route::get('/lang',function(){
     return redirect()->back();
 })->name('/lang');
 
-Route::get('/home', [ContactController::class, 'index'])->name('home');
-
 Route::get('/cancel',function(){
     return redirect('home');
 })->name('/cancel');
 
+Route::get('/home', [ContactController::class, 'index'])->name('home');
+
 Route::namespace('App\Http\Controllers')->group(function(){
-    Route::get('contacts/create', 'ContactController@create');
-    Route::post('contacts/store', 'ContactController@store');
-    Route::get('contacts/edit', 'ContactController@edit');
-    // Route::get('Contacts/update', 'ContactController@update')->name('Contacts/update');
+    Route::get('contacts/create', 'ContactController@create')->name('contacts.create');
+    Route::post('contacts/store', 'ContactController@store')->name('contacts.store');
+    Route::get('contacts/{contact}/edit', 'ContactController@edit')->name('contacts.edit');
+    Route::post('contacts/{contact}/update', 'ContactController@update')->name('contacts.update');
+    Route::get('contacts/{contact}/destroy', 'ContactController@destroy')->name('contacts.destroy');
+    Route::get('contacts/search', 'ContactController@search')->name('contacts.search');
 });

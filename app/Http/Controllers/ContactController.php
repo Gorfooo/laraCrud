@@ -7,36 +7,33 @@ use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
-    private $contact;
-
-    public function __construct(Contact $contact)
-    {
-        $this->contact = $contact;
-    }
-
     public function index()
     {
-        // $contacts = $this->contact->paginate(10);
-        return view('home');
+        $contacts = Contact::orderBy('id','desc')->paginate(10);
+
+        return view('home', compact('contacts'));
     }
 
-    public function create(Request $request)
+    public function create()
     {
-        $routeParameter = 'contacts/store';
-        return view('insertContact',compact('routeParameter'));
+        return view('insertContact');
     }
 
     public function store(Request $request)
     {
         $data = $request->all();
-        dd($data);
+
+        $photo_path = $request->file('photo')->store('photos','public');
+
+        $data['photo_path'] = $photo_path;
+
+        Contact::create($data);
+        return redirect()->route('home');
     }
 
     public function edit($id)
-    {
-        //     $routeParameter = 'Contacts/update';
-        //     return view('editContact',compact('routeParameter'));
-        $contact = $this->contact->findOrFail($id);
+    {        
+        $contact = Contact::findOrFail($id);
 
         return view('editContact',compact('contact'));
     }
@@ -48,6 +45,22 @@ class ContactController extends Controller
 
     public function destroy($id)
     {
-        //
+        $contact = Contact::findOrFail($id);
+        $contact->delete();
+
+        return redirect()->route('home');
+    }
+
+    public function search(Request $request)
+    {
+        $parameters = $request->all();
+
+        if(empty($parameters['search'])){
+            return redirect()->route('home');
+        }
+
+        $contacts = Contact::where('id', 'like','%'.$parameters['search'].'%' )->orWhere('name', 'like', '%'.$parameters['search'].'%')->paginate(10);
+
+        return view('home',compact('contacts','parameters'));
     }
 }

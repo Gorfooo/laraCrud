@@ -43,22 +43,23 @@
                                 @foreach ($contacts as $contact)
                                 <tr>
                                     <th class='align-middle'>{{$contact->id}}</th>
-                                    <td class='align-middle'>{{$contact->name}}</td>
+                                    <td class='align-middle'><img src="{{asset('storage/photos/'.$contact->photo_path)}}" 
+                                        class='rounded-circle' style='width:3.5rem; height:3.5rem'></td>
                                     <td class='align-middle'>{{$contact->name}}</td>
                                     <td class='align-middle'>{{$contact->city}}, {{$contact->public_place}}, {{$contact->number}}</td>
-                                    <td>
+                                    <td class='align-middle'>
                                         <a href='{{ route('contacts.edit',['contact' => $contact->id]) }}'
                                             class='btn bg-primary text-white'>@lang('contacts.edit')</a>
                                     </td>
-                                    <td>
+                                    <td class='align-middle'>
                                         <a href='{{route('contacts.destroy',['contact' => $contact->id])}}' class='btn bg-danger text-white'>@lang('contacts.remove')</a>
                                     </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
+                        {{$contacts->links()}}
                     </div>
-                    {{$contacts->links()}}
                 </div>
             </div>
         </div>

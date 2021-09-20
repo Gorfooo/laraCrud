@@ -24,7 +24,6 @@ return [
     'code' => 'Código',
     'registration_date' => 'Data de cadastro',
     'limit_500_caracters' => 'Limite de 500 caracteres',
-    'include' => 'Incluir',
     'search' => 'Pesquisar',
 
 ];

@@ -4,18 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class ContactController extends Controller
 {
     public function index()
     {
-        $contacts = Contact::orderBy('id','desc')->paginate(10);
+        $contacts = Contact::orderBy('id','desc')->paginate(10)->onEachSide(0);
 
         return view('home', compact('contacts'));
     }
 
     public function create()
     {
+        session(['filename' => '']);
+
         return view('insertContact');
     }
 
@@ -23,9 +27,9 @@ class ContactController extends Controller
     {
         $data = $request->all();
 
-        $photo_path = $request->file('photo')->store('photos','public');
+        Storage::move('photos/' . session('filename'),'public/photos/' . session('filename'));
 
-        $data['photo_path'] = $photo_path;
+        $data['photo_path'] = session('filename');
 
         Contact::create($data);
         return redirect()->route('home');
@@ -33,6 +37,8 @@ class ContactController extends Controller
 
     public function edit($id)
     {        
+        session(['filename' => '']);
+
         $contact = Contact::findOrFail($id);
 
         return view('editContact',compact('contact'));
@@ -40,7 +46,11 @@ class ContactController extends Controller
 
     public function update(Request $request, $id)
     {
-        dd('caiu no update');
+        $data = $request->all();
+
+        $contact = Contact::findOrFail($id);
+
+        $contact->update($data);
     }
 
     public function destroy($id)
@@ -62,5 +72,23 @@ class ContactController extends Controller
         $contacts = Contact::where('id', 'like','%'.$parameters['search'].'%' )->orWhere('name', 'like', '%'.$parameters['search'].'%')->paginate(10);
 
         return view('home',compact('contacts','parameters'));
+    }
+
+    public function upload(Request $request)
+    {
+        if ($request->hasFile('filepond')){
+            $file = $request->file('filepond');
+            $filename = uniqid() . '-' . now()->timestamp . $file->getClientOriginalName();
+            $file->storeAs('photos/', $filename);
+        }
+        session(['filename' => $filename]);
+        return $filename;
+    }
+
+    public function cancel()
+    {
+        File::delete(storage_path('app/photos/' . session('filename')));
+
+        return redirect()->route('home');
     }
 }

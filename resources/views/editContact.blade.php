@@ -67,7 +67,7 @@
                             </div>
                             <div class="col-3 col-sm-2">
                                 <label>@lang('contacts.state')</label>
-                                <input type="text" id='state' name="state" class="form-control" readonly value="{{$contact->number}}">
+                                <input type="text" id='state' name="state" class="form-control" readonly value="{{$contact->state}}">
                             </div>
                         </div>
                         <div class="row mb-2">
@@ -93,7 +93,7 @@
                         <div class="row">
                             <div class="col text-right">
                                 <a href="{{route('contacts.cancel')}}" class="btn btn-danger">@lang('contacts.cancel')</a>
-                                <button type='button' class="btn btn-success" id='send'>@lang('contacts.save')</button>
+                                <button type='button' class="btn btn-success" disabled id='send'>@lang('contacts.save')</button>
                             </div>
                         </div>
                       </form>
@@ -119,15 +119,41 @@
             }
         );
 
-        $j('.filepond').filepond('addFile', '{{asset('storage/photos/'.$contact->photo_path)}}');
+        $j('.filepond').filepond('addFile', '{{asset($contact->photo_path)}}').then(onprocessfile = (error,file)=>{
+            console.log('a');
+        });
+
+        // filepond.processFiles().then((files) => {
+        //     $j('.btn-success').prop('disabled',false);
+        // });
+
+        filepond.onprocessfile = (error, file) => {
+            console.log('aaa');
+            if (error) {
+                console.log(error);
+                return;
+            }
+            getUploadStatus();
+        }
+
+        function getUploadStatus(){
+            var totalFiles = $('.filepond--item').length;
+            var completedFiles = $('.filepond--item[data-filepond-item-state="processing-complete"]').length;
+            console.log('totalFiles: '+totalFiles);
+            console.log('completedFiles: '+completedFiles);
+            if(completedFiles == totalFiles){
+                alert('done');
+            }
+        }
 
         FilePond.setOptions({
             server: {
                 url: '/contacts/upload',
+                revert:'/revert',
                 headers: {
                     'X-CSRF-TOKEN': '{{csrf_token()}}'
                 }
-            }
+            },
         });
     
     $j("#phone_number").inputmask("+55 (99) 999999999");

@@ -31,5 +31,6 @@ Route::group(['middleware' => ['auth']],function(){
         Route::get('/search', 'ContactController@search')->name('contacts.search');
         Route::get('/cancel', 'ContactController@cancel')->name('contacts.cancel');
         Route::post('/upload', 'ContactController@upload');
+        Route::delete('/upload/revert', 'ContactController@revertUpload');
     });
 });

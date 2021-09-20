@@ -110,6 +110,7 @@
     FilePond.setOptions({
         server: {
             url: '/contacts/upload',
+            revert:'/revert',
             headers: {
                 'X-CSRF-TOKEN': '{{csrf_token()}}'
             }

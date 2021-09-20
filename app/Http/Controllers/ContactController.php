@@ -6,9 +6,12 @@ use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Redirect;
 
 class ContactController extends Controller
 {
+    const defaultPhotoPath = 'storage/photos/default__user.png';
+
     public function index()
     {
         $contacts = Contact::orderBy('id','desc')->paginate(10)->onEachSide(0);
@@ -27,9 +30,12 @@ class ContactController extends Controller
     {
         $data = $request->all();
 
-        Storage::move('photos/' . session('filename'),'public/photos/' . session('filename'));
-
-        $data['photo_path'] = session('filename');
+        if (session('filename') != ''){
+            Storage::move('photos/' . session('filename'),'public/photos/' . session('filename'));
+            $data['photo_path'] = 'storage/photos/' . session('filename');
+        }else{
+            $data['photo_path'] = self::defaultPhotoPath;
+        }
 
         Contact::create($data);
         return redirect()->route('home');
@@ -50,12 +56,30 @@ class ContactController extends Controller
 
         $contact = Contact::findOrFail($id);
 
+        if(session('filename') != ''){
+            if(str_contains(session('filename'), 'default__user.png')){
+                unlink(storage_path('app/photos/' . session('filename')));
+            }else{
+                Storage::move('photos/' . session('filename'),'public/photos/' . session('filename'));
+                $data['photo_path'] = 'storage/photos/' . session('filename');
+            }
+        }else{
+            $data['photo_path'] = self::defaultPhotoPath;
+        }
+        //clicar em editar em um cliente com imagem e remover ela (não irá remover de public photos)
+        //clicar em editar e salvar (irá criar novo arquivo em photos)
+        //abrir e salvar rápido remove a foto
+
         $contact->update($data);
+        return redirect()->route('home');
     }
 
     public function destroy($id)
     {
         $contact = Contact::findOrFail($id);
+
+        $contact->photo_path == self::defaultPhotoPath ? '' : File::delete($contact->photo_path);
+
         $contact->delete();
 
         return redirect()->route('home');
@@ -83,6 +107,12 @@ class ContactController extends Controller
         }
         session(['filename' => $filename]);
         return $filename;
+    }
+
+    public function revertUpload()
+    {
+        unlink(storage_path('app/photos/' . session('filename')));
+        session(['filename' => '']);
     }
 
     public function cancel()

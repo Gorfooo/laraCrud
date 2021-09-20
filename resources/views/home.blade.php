@@ -43,7 +43,7 @@
                                 @foreach ($contacts as $contact)
                                 <tr>
                                     <th class='align-middle'>{{$contact->id}}</th>
-                                    <td class='align-middle'><img src="{{asset('storage/photos/'.$contact->photo_path)}}" 
+                                    <td class='align-middle'><img src="{{asset("$contact->photo_path")}}" 
                                         class='rounded-circle' style='width:3.5rem; height:3.5rem'></td>
                                     <td class='align-middle'>{{$contact->name}}</td>
                                     <td class='align-middle'>{{$contact->city}}, {{$contact->public_place}}, {{$contact->number}}</td>

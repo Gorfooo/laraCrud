@@ -6,7 +6,7 @@ use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\ContactRequest;
 
 class ContactController extends Controller
 {
@@ -26,7 +26,7 @@ class ContactController extends Controller
         return view('insertContact');
     }
 
-    public function store(Request $request)
+    public function store(ContactRequest $request)
     {
         $data = $request->all();
 
@@ -50,7 +50,7 @@ class ContactController extends Controller
         return view('editContact',compact('contact'));
     }
 
-    public function update(Request $request, $id)
+    public function update(ContactRequest $request, $id)
     {
         $data = $request->all();
 
@@ -66,9 +66,6 @@ class ContactController extends Controller
         }else{
             $data['photo_path'] = self::defaultPhotoPath;
         }
-        //clicar em editar em um cliente com imagem e remover ela (não irá remover de public photos)
-        //clicar em editar e salvar (irá criar novo arquivo em photos)
-        //abrir e salvar rápido remove a foto
 
         $contact->update($data);
         return redirect()->route('home');

@@ -12,14 +12,15 @@ class ContactFactory extends Factory
 
     public function definition()
     {
+        $this->faker = \Faker\Factory::create('pt_BR');
         return [
-            'photo_path' => $this->faker->word(),
+            'photo_path' => 'storage/photos/default__user.png',
             'observation' => $this->faker->word(),
             'name' => $this->faker->name(),
-            'zip_code' => $this->faker->randomDigit(),
+            'zip_code' => '89707-091',
             'public_place' => $this->faker->streetAddress(),
-            'number' => $this->faker->randomNumber(),
-            'state' => $this->faker->randomLetter(),
+            'number' => $this->faker->randomNumber(6),
+            'state' => $this->faker->stateAbbr,
             'city' => $this->faker->city(),
             'phone_number' => $this->faker->phoneNumber(),
             'country' => $this->faker->country(),

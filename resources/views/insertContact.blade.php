@@ -29,7 +29,14 @@
                                 </div>
                                 <div class="col-7">
                                     <label>@lang('contacts.observation')</label>
-                                    <textarea class="form-control" name="observation" maxlength="500" style='height:11rem'></textarea>
+                                    <textarea class="form-control @error('observation')
+                                        is-invalid
+                                    @enderror" name="observation" maxlength="500" style='height:11rem'>{{old('observation')}}</textarea>
+                                    @error('observation')
+                                        <div class="invalid-feedback">
+                                            {{$message}}
+                                        </div>
+                                    @enderror
                                     <small class="form-text text-muted">@lang('contacts.limit_500_caracters')</small>
                                 </div>
                             </div>
@@ -37,45 +44,108 @@
                         <div class="row mb-2">
                             <div class="col-sm-9">
                                 <label>@lang('contacts.name')</label>
-                                <input type="text" name="name" class="form-control" maxlength="50">
+                                <input type="text" name="name" class="form-control @error('name')
+                                    is-invalid
+                                @enderror" value="{{old('name')}}" maxlength="50">
+                                @error('name')
+                                    <div class="invalid-feedback">
+                                        {{$message}}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="col-sm-3">
                                 <label>@lang('contacts.zip_code')</label>
-                                <input type="text" id='zip_code' name="zip_code" class="form-control" autocomplete="nope" onkeypress="validateRequest(event)">
+                                <input type="text" id='zip_code' name="zip_code" class="form-control @error('zip_code')
+                                    is-invalid
+                                @enderror" value="{{old('zip_code')}}" autocomplete="nope">
+                                @error('zip_code')
+                                    <div class="invalid-feedback">
+                                        {{$message}}
+                                    </div>
+                                @enderror
                             </div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-12 col-sm-7">
                                 <label>@lang('contacts.public_place')</label>
-                                <input type="text" id='public_place' name="public_place" class="form-control" maxlength="50" readonly>
+                                <input type="text" id='public_place' name="public_place" class="form-control @error('public_place')
+                                    is-invalid
+                                @enderror" value="{{old('public_place')}}" maxlength="50" readonly>
+                                @error('public_place')
+                                    <div class="invalid-feedback">
+                                        {{$message}}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="col-9 col-sm-3">
                                 <label>@lang('contacts.number')</label>
-                                <input type="number" name="number" class="form-control" maxlength="6" oninput="maxLengthCheck(this)">
+                                <input type="number" name="number" class="form-control @error('number')
+                                    is-invalid
+                                @enderror" value="{{old('number')}}" maxlength="6" oninput="maxLengthCheck(this)">
+                                @error('number')
+                                    <div class="invalid-feedback">
+                                        {{$message}}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="col-3 col-sm-2">
                                 <label>@lang('contacts.state')</label>
-                                <input type="text" id='state' name="state" class="form-control" readonly>
+                                <input type="text" id='state' name="state" class="form-control @error('state')
+                                    is-invalid
+                                @enderror" value="{{old('state')}}" readonly>
+                                @error('state')
+                                    <div class="invalid-feedback">
+                                        {{$message}}
+                                    </div>
+                                @enderror
                             </div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-12 col-sm-5">
                                 <label>@lang('contacts.city')</label>
-                                <input type="text" id='city' name="city" class="form-control" readonly>
+                                <input type="text" id='city' name="city" class="form-control @error('city')
+                                    is-invalid
+                                @enderror" value="{{old('city')}}" readonly>
+                                @error('city')
+                                    <div class="invalid-feedback">
+                                        {{$message}}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="col-6 col-sm-4">
                                 <label>@lang('contacts.phone')</label>
-                                <input type="text" name="phone_number" id='phone_number' class="form-control">
+                                <input type="text" name="phone_number" id='phone_number' class="form-control @error('phone_number')
+                                    is-invalid
+                                @enderror" value="{{old('phone_number')}}">
+                                @error('phone_number')
+                                    <div class="invalid-feedback">
+                                        {{$message}}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="col-6 col-sm-3">
                                 <label>@lang('contacts.country')</label>
-                                <input type="text" name="country" maxlength="50" class="form-control">
+                                <input type="text" name="country" maxlength="50" class="form-control @error('country')
+                                    is-invalid
+                                @enderror" value="{{old('country')}}">
+                                @error('country')
+                                    <div class="invalid-feedback">
+                                        {{$message}}
+                                    </div>
+                                @enderror
                             </div>
                         </div>
                         <div class="row mb-2">
                             <div class="col">
                                 <label>@lang('contacts.complement')</label>
-                                <input type="text" id='complement' name="complement" class="form-control" maxlength="50">
+                                <input type="text" id='complement' name="complement" class="form-control @error('complement')
+                                    is-invalid
+                                @enderror" value="{{old('complement')}}" maxlength="50">
+                                @error('complement')
+                                    <div class="invalid-feedback">
+                                        {{$message}}
+                                    </div>
+                                @enderror
                             </div>
                         </div>
                         <div class="row">
@@ -126,30 +196,33 @@
         object.value = object.value.slice(0, object.maxLength)
     }
 
-    $j('#zip_code').on('focusout',function(){
-        var formatted_zip_code = $j('#zip_code').val().replace('_','');
-        if (formatted_zip_code.length == 9){
+    var lastCEP = '';
+    $j('#zip_code').on('keyup focusout',function(){
+        if(lastCEP != $j('#zip_code').val().replace('_','')&&
+        $j('#zip_code').val().replace('_','').length == 9){
             getAddress();
         }
     });
-
+    
     function validateRequest(event){
-        var formatted_zip_code = $j('#zip_code').val().replace('_','');
-        if (event.keyCode == 13 && formatted_zip_code.length == 9){
+        if (event.keyCode == 13 && $j('#zip_code').val().replace('_','').length == 9 && 
+        lastCEP != $j('#zip_code').val().replace('_','')){
             getAddress();
         }
     }
-
+    
     function getAddress(event){
+        lastCEP = $j('#zip_code').val().replace('_','');
+        console.log('consultou');
         axios.get('https://viacep.com.br/ws/'+$j('#zip_code').val()+'/json/')
-    .then(function (response) {
-        $j('#public_place').val(response.data.logradouro);
-        $j('#city').val(response.data.localidade);
-        $j('#state').val(response.data.uf);
-    })
-    .catch(function (error) {
-        console.log(error);
-    })
+        .then(function (response) {
+            $j('#public_place').val(response.data.logradouro);
+            $j('#city').val(response.data.localidade);
+            $j('#state').val(response.data.uf);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
     }
 
     $j('#send').on('click',function(){

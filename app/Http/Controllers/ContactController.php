@@ -58,12 +58,16 @@ class ContactController extends Controller
 
         if(session('filename') != ''){
             if(str_contains(session('filename'), 'default__user.png')){
+                //abriu com user sem foto de deixou sem foto
                 unlink(storage_path('app/photos/' . session('filename')));
             }else{
+                //tirar antiga e colocar nova foto
+                File::delete($contact->photo_path);
                 Storage::move('photos/' . session('filename'),'public/photos/' . session('filename'));
                 $data['photo_path'] = 'storage/photos/' . session('filename');
             }
         }else{
+            //remover foto
             $data['photo_path'] = self::defaultPhotoPath;
         }
 
